@@ -1,0 +1,96 @@
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="home.js"></script>
+</head>
+<style>
+  #myData>div{
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #myData{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+  }
+  img{
+    width: 100px;
+  }
+</style>
+<body>
+  <header class="flex justify-between p-5 font-bold text-2xl">
+    <h1>My Logo</h1>
+    <a href="./cart.html">Cart</a>
+    <a href="./login.html">LogOut</a>
+  </header>
+  <main class="p-5">
+    <div id="myData"></div>
+  </main>
+  <footer>
+    All copyright 2024 and license claim.
+  </footer>
+
+ <script>
+  let myapi = "http://localhost:3001/data"
+  let mycartapi = "http://localhost:3001/cart"
+  let main = document.getElementById("myData");
+
+
+// fetching the data 
+  const getData = async()=>{
+    let res =    await fetch(myapi)
+    let data = await res.json()
+    console.log(data);
+    display (data)
+  }
+  getData()
+
+  // displaying the data
+  function display (data){
+   data.forEach(({images,brand,price,description}) => {
+    let div = document.createElement("div")
+
+    let ima = document.createElement("img");
+    ima.src = "https://png.pngtree.com/png-vector/20240203/ourlarge/pngtree-3d-render-student-studying-concept-png-image_11594938.png"
+    let bran = document.createElement("h2");
+    bran.innerText = brand
+    let pri = document.createElement("h3");
+    pri.innerText = price
+    let des = document.createElement("p");
+    des.innerText = description
+    
+    let btn = document.createElement("button");
+    btn.innerText = "Add to cart"
+    btn.addEventListener("click",function(){
+      addToCart(data)
+    })
+    div.append(ima,bran,pri,des,btn)
+    main.appendChild(div)
+   });
+   }
+
+   async function addToCart(data){
+    let res = await fetch(mycartapi,{
+        method : "POST",
+        body: JSON.stringify(data),
+       headers: {
+        "Content-type": "application/json; charset=UTF-8"
+    }
+    })
+    alert("Add To Cart successful")
+    }
+  
+ 
+
+
+ </script>
+</body>
+</html>

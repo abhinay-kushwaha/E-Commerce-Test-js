@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SignUp </title>
+</head>
+<body>
+  <h1>Create Your Account</h1>
+  <form >
+    <input type="text" placeholder="Enter your Name" id="name">
+    <input type="email" placeholder="Enter your Email" id="email">
+    <input type="password" placeholder="Enter your Password" id="password">
+    <button type="submit"> SignUp</button><a href="./login.html">Login</a>
+  </form>
+  <script>
+
+    let auth ="http://localhost:3001/auth"
+    let form  = document.querySelector('form');
+    form.addEventListener('submit',signup)
+
+   
+    function signup() {
+        event.preventDefault();
+
+        let name = document.getElementById("name").value;
+        let email = document.getElementById("email").value;
+        let password = document.getElementById("password").value;
+
+        
+        let obj = {
+            name,email,password
+        }
+
+        obj.push(obj)
+        sub(data);
+        alert("Signup successful")
+        window.location.href = "./login.html"
+      }
+
+        async function sub(data){
+          let res = await fetch(auth,{
+              method : "POST",
+              body: JSON.stringify(data),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8"
+          }
+          })
+          alert("SignUp successful")
+          }
+  </script>
+</body>
+</html>

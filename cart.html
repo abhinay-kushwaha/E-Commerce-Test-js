@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart</title>
+</head>
+<style>
+  #cart>div{
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #cart{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+  }
+  img{
+    width: 100px;
+  }
+</style>
+<body>
+  <header>
+    <a >Welcome in Cart </a>
+    <a href="./home.html">Back to Home</a>
+  </header>
+  <main>
+    <div id="cart">
+
+    </div>
+  </main>
+  <script>
+    let mycartapi = "http://localhost:3001/cart"
+    let main = document.getElementById("cart");
+
+    const getData = async()=>{
+    let res =    await fetch(mycartapi)
+    let data = await res.json()
+    console.log(data);
+    display (data)
+  }
+  getData()
+
+
+    function display (arr){
+      cart.innerHTML = "";
+   arr.forEach(({images,brand,price,description}) => {
+    let div = document.createElement("div")
+
+    let ima = document.createElement("img");
+    ima.src = "https://png.pngtree.com/png-vector/20240203/ourlarge/pngtree-3d-render-student-studying-concept-png-image_11594938.png"
+    let bran = document.createElement("h2");
+    bran.innerText = brand
+    let pri = document.createElement("h3");
+    pri.innerText = price
+    let des = document.createElement("p");
+    des.innerText = description
+    
+    let btn = document.createElement("button");
+    btn.innerText = "Delete"
+    btn.addEventListener("click",function(){
+      delfun()
+    })
+    div.append(ima,bran,pri,des,btn)
+    main.appendChild(div)
+   });
+   }
+
+   async function delfun(data){
+    let res = await fetch(mycartapi,{
+        method : "DELETE"
+    })
+      alert("Remove sucess");
+    }
+  </script>
+</body>
+</html>
